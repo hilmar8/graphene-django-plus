@@ -1,1 +1,1 @@
-"# django-graphene-hilmarh" 
+"# graphene-django-hilmarh" 

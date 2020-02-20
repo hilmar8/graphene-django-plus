@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "graphene-django-hilmarh"
+version = "0.0.1"
+description = "Custom modifications that I've done to graphene-django to make it work better for me"
+authors = ["Hilmar Ævar Hilmarsson"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "~3.7"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
