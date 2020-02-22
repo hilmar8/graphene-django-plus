@@ -3,7 +3,7 @@ from functools import partial
 from graphene.types.utils import get_type
 from graphene.relay import node as graphene_node
 
-from sprikl_graphene.permissions import check_permission_classes, check_throttle_classes
+from ..permissions import check_permission_classes, check_throttle_classes
 
 
 class SpriklNodeField(graphene_node.NodeField):

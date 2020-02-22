@@ -89,6 +89,7 @@ class GraphQLAPIView(APIView):
         graphene_pretty=False,
         graphene_batch=False,
         graphene_backend=None,
+        graphene_validation_classes=None,
     ):
         if not graphene_schema:
             graphene_schema = graphene_settings.SCHEMA
@@ -99,6 +100,9 @@ class GraphQLAPIView(APIView):
         if graphene_middleware is None:
             graphene_middleware = graphene_settings.MIDDLEWARE
 
+        if graphene_validation_classes is None:
+            graphene_validation_classes = self.graphene_validation_classes
+
         self.graphene_schema = self.graphene_schema or graphene_schema
         if graphene_middleware is not None:
             self.graphene_middleware = list(instantiate_middleware(graphene_middleware))
@@ -108,6 +112,7 @@ class GraphQLAPIView(APIView):
         self.graphiql = self.graphiql or graphiql
         self.graphene_batch = self.graphene_batch or graphene_batch
         self.graphene_backend = graphene_backend
+        self.graphene_validation_classes = graphene_validation_classes
 
         assert isinstance(
             self.graphene_schema, GraphQLSchema
@@ -115,6 +120,8 @@ class GraphQLAPIView(APIView):
         assert not all(
             (graphiql, graphene_batch)
         ), "Use either graphiql or batch processing"
+
+        super().__init__()
 
     # noinspection PyUnusedLocal
     def get_graphene_root_value(self, request):
@@ -216,10 +223,10 @@ class GraphQLAPIView(APIView):
                 extra_options["executor"] = self.graphene_executor
 
             return document.execute(
-                root=self.get_graphene_root_value(request),
-                variables=variables,
+                root_value=self.get_graphene_root_value(request),
+                variable_values=variables,
                 operation_name=operation_name,
-                context=self.get_graphene_context(request),
+                context_value=self.get_graphene_context(request),
                 middleware=self.get_graphene_middleware(request),
                 **extra_options
             )

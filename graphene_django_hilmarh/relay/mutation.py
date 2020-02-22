@@ -13,7 +13,7 @@ from graphene.utils.str_converters import to_camel_case
 
 from graphene_django.registry import get_global_registry
 
-from sprikl_graphene.fields import SpriklField
+from ..fields import SpriklField
 from ..types import ErrorType
 from ..mutation import SerializerMutationOptions
 from ..serializers import fields_for_serializer
@@ -68,6 +68,7 @@ class SerializerBaseClientIDMutation(DjangoClientIDMutation):
         is_update=False,
         id_input_field=None,
         partial=False,
+        convert_choices_to_enum=True,
         registry=None,
         **options
     ):
@@ -100,6 +101,7 @@ class SerializerBaseClientIDMutation(DjangoClientIDMutation):
             is_input=True,
             is_update=is_update,
             is_partial=partial,
+            convert_choices_to_enum=convert_choices_to_enum,
         )
         output_fields = fields_for_serializer(
             serializer,
@@ -109,6 +111,7 @@ class SerializerBaseClientIDMutation(DjangoClientIDMutation):
             is_input=False,
             is_update=is_update,
             is_partial=partial,
+            convert_choices_to_enum=convert_choices_to_enum,
         )
 
         if is_update and id_input_field:
@@ -250,6 +253,7 @@ class SerializerClientIDUpdateMutation(SerializerBaseClientIDMutation):
         exclude_fields=(),
         id_input_field="id",
         partial=False,
+        convert_choices_to_enum=True,
         **options
     ):
         super(SerializerClientIDUpdateMutation, cls).__init_subclass_with_meta__(
@@ -262,6 +266,7 @@ class SerializerClientIDUpdateMutation(SerializerBaseClientIDMutation):
             is_update=True,
             id_input_field=id_input_field,
             partial=partial,
+            convert_choices_to_enum=convert_choices_to_enum,
             **options
         )
 

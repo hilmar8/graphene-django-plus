@@ -1,6 +1,6 @@
 import re
 
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.translation import gettext_lazy as _
 
 from graphql.language.ast import (
@@ -54,7 +54,7 @@ class DocumentDepthValidator(BaseDocumentValidator):
 
         for name in queries:
             if self.determine_depth(queries[name], fragments, name) > self.max_depth:
-                self.message = force_text(self.default_message).format(
+                self.message = force_str(self.default_message).format(
                     operation=name, depth=self.max_depth
                 )
                 return False
@@ -115,7 +115,7 @@ class DisableIntrospectionValidator(BaseDocumentValidator):
             if queries[name].selection_set:
                 for selection in queries[name].selection_set.selections:
                     if selection.name.value == "__schema" or selection.name.value == "__type":
-                        self.message = force_text(self.default_message)
+                        self.message = force_str(self.default_message)
                         return False
 
         return True

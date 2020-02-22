@@ -6,7 +6,7 @@ from graphene.types.unmountedtype import UnmountedType
 from graphene_django.utils import camelize
 from graphene_django.settings import graphene_settings
 
-from sprikl_graphene.relay.connection import DjangoConnection
+from .relay.connection import DjangoConnection
 
 
 class DjangoObjectTypeOptions(graphene_django.types.DjangoObjectTypeOptions):
@@ -89,7 +89,7 @@ class DjangoObjectType(graphene_django.types.DjangoObjectType):
 # from graphene_django.settings import graphene_settings
 # from graphene_django.utils import camelize
 #
-# from sprikl_graphene.relay.connection import DjangoConnection
+# from .relay.connection import DjangoConnection
 #
 #
 # class DjangoObjectTypeOptions(graphene_django_types.DjangoObjectTypeOptions):

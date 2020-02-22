@@ -1,10 +1,13 @@
 from functools import partial
 
 import graphene
+from graphene import Field, List, NonNull
+from graphene.types.utils import get_type
 from graphene_django import DjangoConnectionField
+from graphene_django.fields import DjangoListField
 from graphene_django.filter import DjangoFilterConnectionField
 
-from sprikl_graphene.permissions import check_permission_classes, check_throttle_classes
+from .permissions import check_permission_classes, check_throttle_classes
 
 #
 # class SpriklConnectionField(DjangoConnectionField):
@@ -162,3 +165,8 @@ class SpriklField(graphene.Field):
             permission_classes=self.permission_classes,
             throttle_classes=self.throttle_classes,
         )
+
+
+class SpriklListField(DjangoListField):
+    def __init__(self, _type, *args, **kwargs):
+        super(DjangoListField, self).__init__(List(NonNull(_type)), *args, **kwargs)

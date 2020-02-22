@@ -2,9 +2,9 @@ import functools
 
 from graphql.execution.middleware import make_it_promise
 
-from sprikl_graphene.fields import SpriklFilterConnectionField, SpriklField
-from sprikl_graphene.permissions import check_permission_classes, check_throttle_classes
-from sprikl_graphene.relay.node import SpriklNode
+from .fields import SpriklFilterConnectionField, SpriklField
+from .permissions import check_permission_classes, check_throttle_classes
+from .relay.node import SpriklNode
 
 
 class TestMiddleware(object):
