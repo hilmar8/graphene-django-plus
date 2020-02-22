@@ -1,7 +1,11 @@
 import pytest
+from django.contrib.auth.models import User
 from django.urls import reverse
 from graphql_relay import to_global_id
 from rest_framework.test import APIClient
+
+from tests import factories
+from tests.test_app.test_app.app.models import Book
 
 
 class GraphQLClient(APIClient):
@@ -41,3 +45,57 @@ def graphql_depth_client():
 @pytest.fixture()
 def graphql_introspection_client():
     return GraphQLClient("graphql-introspection")
+
+
+@pytest.fixture()
+def graphql_auth_client():
+    return GraphQLClient("graphql-auth")
+
+
+@pytest.fixture()
+def graphql_admin_client():
+    return GraphQLClient("graphql-admin")
+
+
+@pytest.fixture()
+def graphql_admin_resolver_client():
+    return GraphQLClient("graphql-admin-resolver")
+
+
+@pytest.fixture()
+def graphql_throttle_client():
+    return GraphQLClient("graphql-throttle")
+
+
+@pytest.fixture()
+def graphql_throttle_resolver_client():
+    return GraphQLClient("graphql-throttle-resolver")
+
+
+# Model Factories
+
+
+def _factory(cls, fct, request):
+    created_list = []
+
+    def create(*args, **kwargs) -> cls:
+        created = fct.create(*args, **kwargs)
+        created_list.append(created)
+        return created
+
+    def cleanup():
+        for c in created_list:
+            c.delete()
+
+    request.addfinalizer(cleanup)
+    return create
+
+
+@pytest.fixture()
+def book_factory(request):
+    return _factory(Book, factories.BookFactory, request)
+
+
+@pytest.fixture()
+def user_factory(request):
+    return _factory(User, factories.UserFactory, request)

@@ -9,62 +9,62 @@ from graphene_django.filter import DjangoFilterConnectionField
 
 from .permissions import check_permission_classes, check_throttle_classes
 
-#
-# class SpriklConnectionField(DjangoConnectionField):
-#     def __init__(self, *args, **kwargs):
-#         self.permission_classes = kwargs.pop("permission_classes", None)
-#         self.throttle_classes = kwargs.pop("throttle_classes", None)
-#
-#         super().__init__(*args, **kwargs)
-#
-#     @classmethod
-#     def resolve_connection(cls, connection, args, iterable):
-#         connection = super().resolve_connection(connection, args, iterable)
-#         connection.total_count = connection.length
-#         return connection
-#
-#     @classmethod
-#     def connection_resolver(
-#         cls,
-#         resolver,
-#         connection,
-#         default_manager,
-#         queryset_resolver,
-#         max_limit,
-#         enforce_first_or_last,
-#         permission_classes,
-#         throttle_classes,
-#         root,
-#         info,
-#         **args
-#     ):
-#         check_permission_classes(info, cls, permission_classes)
-#         check_throttle_classes(info, cls, throttle_classes)
-#
-#         return super().connection_resolver(
-#             resolver,
-#             connection,
-#             default_manager,
-#             queryset_resolver,
-#             max_limit,
-#             enforce_first_or_last,
-#             root,
-#             info,
-#             **args
-#         )
-#
-#     def get_resolver(self, parent_resolver):
-#         return partial(
-#             self.connection_resolver,
-#             parent_resolver,
-#             self.connection_type,
-#             self.get_manager(),
-#             self.get_queryset_resolver(),
-#             self.max_limit,
-#             self.enforce_first_or_last,
-#             self.permission_classes,
-#             self.throttle_classes,
-#         )
+
+class SpriklConnectionField(DjangoConnectionField):
+    def __init__(self, *args, **kwargs):
+        self.permission_classes = kwargs.pop("permission_classes", None)
+        self.throttle_classes = kwargs.pop("throttle_classes", None)
+
+        super().__init__(*args, **kwargs)
+
+    @classmethod
+    def resolve_connection(cls, connection, args, iterable):
+        connection = super().resolve_connection(connection, args, iterable)
+        connection.total_count = connection.length
+        return connection
+
+    @classmethod
+    def connection_resolver(
+        cls,
+        resolver,
+        connection,
+        default_manager,
+        queryset_resolver,
+        max_limit,
+        enforce_first_or_last,
+        permission_classes,
+        throttle_classes,
+        root,
+        info,
+        **args
+    ):
+        check_permission_classes(info, cls, permission_classes)
+        check_throttle_classes(info, cls, throttle_classes)
+
+        return super().connection_resolver(
+            resolver,
+            connection,
+            default_manager,
+            queryset_resolver,
+            max_limit,
+            enforce_first_or_last,
+            root,
+            info,
+            **args
+        )
+
+    def get_resolver(self, parent_resolver):
+        return partial(
+            self.connection_resolver,
+            parent_resolver,
+            self.connection_type,
+            self.get_manager(),
+            self.get_queryset_resolver(),
+            self.max_limit,
+            self.enforce_first_or_last,
+            self.permission_classes,
+            self.throttle_classes,
+        )
 
 
 class SpriklFilterConnectionField(DjangoFilterConnectionField):

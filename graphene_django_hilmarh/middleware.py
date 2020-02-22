@@ -42,12 +42,5 @@ class TestMiddleware(object):
         if hasattr(resolver_fn, "throttle_classes"):
             throttle_classes = resolver_fn.throttle_classes
             check_throttle_classes(info, None, throttle_classes)
-        #
-        # if permission_classes is not None:
-        #     for permission in [p() for p in permission_classes]:
-        #         if not permission.has_permission(
-        #             info.context.get("request"), info.context.get("view")
-        #         ):
-        #             raise PermissionDenied(detail=getattr(permission, "message", None))
-        #
+
         return next(root, info, **args)

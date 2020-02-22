@@ -28,7 +28,9 @@ class Author(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=100)
     authors = models.ManyToManyField(Author)
-    publisher = models.ForeignKey(Publisher, on_delete=models.PROTECT)
+    publisher = models.ForeignKey(
+        Publisher, null=True, blank=True, on_delete=models.PROTECT
+    )
     publication_date = models.DateField()
     num_pages = models.IntegerField(blank=True, null=True)
 

@@ -78,6 +78,7 @@ class GraphQLAPIView(APIView):
     )
 
     resolver_permission_classes = api_settings.DEFAULT_PERMISSION_CLASSES
+    resolver_throttle_classes = api_settings.DEFAULT_THROTTLE_CLASSES
 
     def __init__(
         self,

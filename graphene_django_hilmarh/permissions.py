@@ -23,6 +23,16 @@ def check_permission_classes(info, field, permission_classes):
 
 
 def check_throttle_classes(info, field, throttle_classes):
+    if throttle_classes is None:
+        if hasattr(info, "context") and info.context and info.context.get("view", None):
+            throttle_classes = info.context.get("view").resolver_throttle_classes
+        else:
+            warnings.warn(
+                UserWarning(
+                    "{} should not be called without context.".format(field.__name__)
+                )
+            )
+
     if throttle_classes is not None:
         for throttle in [t() for t in throttle_classes]:
             if not throttle.allow_request(

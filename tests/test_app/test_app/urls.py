@@ -19,7 +19,14 @@ from graphene_django_hilmarh.validators import (
     DocumentDepthValidator,
     DisableIntrospectionValidator,
 )
-from tests.test_app.test_app.app.views import CustomGraphQLAPIView
+from tests.test_app.test_app.app.views import (
+    CustomGraphQLAPIView,
+    AuthGraphQLAPIView,
+    AdminGraphQLAPIView,
+    AdminResolverGraphQLAPIView,
+    ThrottleGraphQLAPIView,
+    ThrottleResolverGraphQLAPIView,
+)
 from tests.test_app.test_app.schema import schema
 
 
@@ -28,6 +35,31 @@ class CustomDepthValidator(DocumentDepthValidator):
 
 
 urlpatterns = [
+    re_path(
+        r"^graphql-throttle-resolver",
+        ThrottleResolverGraphQLAPIView.as_view(graphene_schema=schema),
+        name="graphql-throttle-resolver",
+    ),
+    re_path(
+        r"^graphql-throttle",
+        ThrottleGraphQLAPIView.as_view(graphene_schema=schema),
+        name="graphql-throttle",
+    ),
+    re_path(
+        r"^graphql-admin-resolver",
+        AdminResolverGraphQLAPIView.as_view(graphene_schema=schema),
+        name="graphql-admin-resolver",
+    ),
+    re_path(
+        r"^graphql-admin",
+        AdminGraphQLAPIView.as_view(graphene_schema=schema),
+        name="graphql-admin",
+    ),
+    re_path(
+        r"^graphql-auth",
+        AuthGraphQLAPIView.as_view(graphene_schema=schema),
+        name="graphql-auth",
+    ),
     re_path(
         r"^graphql-introspection",
         CustomGraphQLAPIView.as_view(

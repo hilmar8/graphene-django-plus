@@ -23,6 +23,24 @@ type BookType implements SpriklNode {
   allAuthors: [AuthorType!]
 }
 
+type BookTypeConnection {
+  pageInfo: PageInfo!
+  edges: [BookTypeEdge]!
+  totalCount: Int!
+}
+
+type BookTypeEdge {
+  node: BookType
+  cursor: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
 type PublisherType implements SpriklNode {
   name: String!
   address: String!
@@ -32,6 +50,7 @@ type PublisherType implements SpriklNode {
 
 type Query {
   book(id: ID!): BookType
+  books(before: String, after: String, first: Int, last: Int): BookTypeConnection
 }
 
 interface SpriklNode {
