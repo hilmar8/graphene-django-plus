@@ -2,8 +2,9 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.viewsets import ModelViewSet
 
 from graphene_django_hilmarh.typesets import RelayTypeSet
+from tests.test_app.test_app.app.filters import BookFilter
 from tests.test_app.test_app.app.types import BookType
-from tests.test_app.test_app.throttles import ThrottleThree
+from tests.test_app.test_app.throttles import ThrottleThree, ThrottleFour, ThrottleSix
 
 
 class BookRelayTypeSet(RelayTypeSet):
@@ -29,9 +30,43 @@ class BookRelayAdminTypeSet(RelayTypeSet):
 class BookRelayThrottleTypeSet(RelayTypeSet):
     object_type = BookType
 
-    throttle_classes = [ThrottleThree]
-
     operations = {
         "get": "book_throttled",
         "list": "books_throttled",
+    }
+
+    @classmethod
+    def get_throttles(cls, operation):
+        if operation == "get":
+            return [ThrottleThree]
+        if operation == "list":
+            return [ThrottleFour]
+
+
+class BookRelayFilteredTypeSet(RelayTypeSet):
+    object_type = BookType
+    filterset_class = BookFilter
+
+    operations = {
+        "list": "books_filtered",
+    }
+
+
+class BookRelayFilteredAdminTypeSet(RelayTypeSet):
+    object_type = BookType
+    filterset_class = BookFilter
+    permission_classes = [IsAdminUser]
+
+    operations = {
+        "list": "books_filtered_as_admin",
+    }
+
+
+class BookRelayFilteredThrottleTypeSet(RelayTypeSet):
+    object_type = BookType
+    filterset_class = BookFilter
+    throttle_classes = [ThrottleSix]
+
+    operations = {
+        "list": "books_filtered_throttled",
     }

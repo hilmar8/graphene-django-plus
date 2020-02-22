@@ -31,7 +31,7 @@ class Book(models.Model):
     publisher = models.ForeignKey(
         Publisher, null=True, blank=True, on_delete=models.PROTECT
     )
-    publication_date = models.DateField()
+    publication_date = models.DateField(blank=True, null=True)
     num_pages = models.IntegerField(blank=True, null=True)
 
     def __str__(self):

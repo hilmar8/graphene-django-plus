@@ -3,7 +3,14 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from graphene_django_hilmarh.views import GraphQLAPIView
-from tests.test_app.test_app.throttles import ThrottleOne, ThrottleTwo
+from tests.test_app.test_app.throttles import (
+    ThrottleOne,
+    ThrottleTwo,
+    ThrottleFive,
+    ThrottleSeven,
+    ThrottleNine,
+    ThrottleTen,
+)
 
 
 class CustomGraphQLAPIView(GraphQLAPIView):
@@ -36,3 +43,27 @@ class ThrottleResolverGraphQLAPIView(GraphQLAPIView):
     authentication_classes = [BasicAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
     resolver_throttle_classes = [ThrottleTwo]
+
+
+class ThrottleResolverTwoGraphQLAPIView(GraphQLAPIView):
+    authentication_classes = [BasicAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    resolver_throttle_classes = [ThrottleFive]
+
+
+class ThrottleResolverThreeGraphQLAPIView(GraphQLAPIView):
+    authentication_classes = [BasicAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    resolver_throttle_classes = [ThrottleSeven]
+
+
+class ThrottleResolverFourGraphQLAPIView(GraphQLAPIView):
+    authentication_classes = [BasicAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    resolver_throttle_classes = [ThrottleNine]
+
+
+class ThrottleResolverFiveGraphQLAPIView(GraphQLAPIView):
+    authentication_classes = [BasicAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    resolver_throttle_classes = [ThrottleTen]

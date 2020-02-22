@@ -26,6 +26,10 @@ from tests.test_app.test_app.app.views import (
     AdminResolverGraphQLAPIView,
     ThrottleGraphQLAPIView,
     ThrottleResolverGraphQLAPIView,
+    ThrottleResolverTwoGraphQLAPIView,
+    ThrottleResolverThreeGraphQLAPIView,
+    ThrottleResolverFourGraphQLAPIView,
+    ThrottleResolverFiveGraphQLAPIView,
 )
 from tests.test_app.test_app.schema import schema
 
@@ -35,6 +39,26 @@ class CustomDepthValidator(DocumentDepthValidator):
 
 
 urlpatterns = [
+    re_path(
+        r"^graphql-throttle-resolver-5",
+        ThrottleResolverFiveGraphQLAPIView.as_view(graphene_schema=schema),
+        name="graphql-throttle-resolver-5",
+    ),
+    re_path(
+        r"^graphql-throttle-resolver-4",
+        ThrottleResolverFourGraphQLAPIView.as_view(graphene_schema=schema),
+        name="graphql-throttle-resolver-4",
+    ),
+    re_path(
+        r"^graphql-throttle-resolver-3",
+        ThrottleResolverThreeGraphQLAPIView.as_view(graphene_schema=schema),
+        name="graphql-throttle-resolver-3",
+    ),
+    re_path(
+        r"^graphql-throttle-resolver-2",
+        ThrottleResolverTwoGraphQLAPIView.as_view(graphene_schema=schema),
+        name="graphql-throttle-resolver-2",
+    ),
     re_path(
         r"^graphql-throttle-resolver",
         ThrottleResolverGraphQLAPIView.as_view(graphene_schema=schema),
