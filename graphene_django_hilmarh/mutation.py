@@ -18,6 +18,7 @@ from graphene.types.mutation import Mutation, MutationOptions
 #
 #
 class SerializerMutationOptions(MutationOptions):
+    is_update = False
     lookup_field = None
     model_class = None
     serializer_class = None

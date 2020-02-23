@@ -6,6 +6,7 @@ from graphene.types.unmountedtype import UnmountedType
 from graphene_django.utils import camelize
 from graphene_django.settings import graphene_settings
 
+from .registry import get_global_registry
 from .relay.connection import DjangoConnection
 
 
@@ -46,6 +47,9 @@ class DjangoObjectType(graphene_django.types.DjangoObjectType):
 
         if not connection_class:
             connection_class = DjangoConnection
+
+        if not registry:
+            registry = get_global_registry()
 
         _meta.id_field = id_field
 

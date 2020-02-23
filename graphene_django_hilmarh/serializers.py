@@ -4,13 +4,13 @@ from collections import OrderedDict
 from django.utils.translation import gettext_lazy as _
 
 import graphene
-from graphene_django.converter import convert_choices_to_named_enum_with_descriptions
-from graphene_django.registry import get_global_registry
 from graphene_django.rest_framework.serializer_converter import (
     get_graphene_type_from_serializer_field,
 )
 from graphql_relay import from_global_id
 from rest_framework import serializers
+
+from .registry import get_global_registry
 
 
 class SerializerDjangoObjectTypeField(serializers.ReadOnlyField):
@@ -50,7 +50,7 @@ class SerializerRelayIDField(serializers.CharField):
             try:
                 _type, _id = from_global_id(value)
                 graphene_type = info.schema.get_type(_type).graphene_type
-            except binascii.Error:
+            except (binascii.Error, UnicodeDecodeError):
                 self.fail("invalid_id")
 
             if not _type or not _id:
@@ -152,7 +152,7 @@ def convert_serializer_field(field, registry, is_input=True, is_partial=False, c
 
 
 def convert_serializer_to_input_type(serializer_class, registry):
-    if registry is not None:
+    if registry is not None and hasattr(registry, 'get_converted_serializer'):
         converted = registry.get_converted_serializer(serializer_class)
         if converted:
             return converted
@@ -167,14 +167,14 @@ def convert_serializer_to_input_type(serializer_class, registry):
         if converted_field:
             items[name] = converted_field
 
-    if hasattr(serializer.Meta, "input_name"):
+    if hasattr(serializer, 'Meta') and hasattr(serializer.Meta, "input_name"):
         input_name = serializer.Meta.input_name
     else:
         input_name = "{}Input".format(serializer.__class__.__name__)
 
     converted = type(input_name, (graphene.InputObjectType,), items)
 
-    if registry is not None:
+    if registry is not None and hasattr(registry, 'register_converted_serializer'):
         registry.register_converted_serializer(serializer_class, converted)
 
     return converted

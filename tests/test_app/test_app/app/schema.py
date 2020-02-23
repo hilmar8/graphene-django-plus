@@ -1,7 +1,11 @@
 from rest_framework.permissions import IsAdminUser
 
 from graphene_django_hilmarh.routers import TestRouter
-from tests.test_app.test_app.app.mutations import CreateRelayBookMutation
+from tests.test_app.test_app.app.mutations import (
+    CreateRelayBookMutation,
+    UpdateRelayBookMutation,
+    UpdateRelayBookPartialMutation,
+)
 from tests.test_app.test_app.app.typesets import (
     BookRelayTypeSet,
     BookRelayAdminTypeSet,
@@ -10,7 +14,7 @@ from tests.test_app.test_app.app.typesets import (
     BookRelayFilteredAdminTypeSet,
     BookRelayFilteredThrottleTypeSet,
 )
-from tests.test_app.test_app.throttles import ThrottleEight
+from tests.test_app.test_app.throttles import ThrottleEight, ThrottleEleven
 
 test_router = TestRouter()
 
@@ -32,3 +36,13 @@ class Mutation:
     create_relay_book_throttle = CreateRelayBookMutation.Field(
         throttle_classes=[ThrottleEight]
     )
+
+    update_relay_book = UpdateRelayBookMutation.Field()
+    update_relay_book_admin = UpdateRelayBookMutation.Field(
+        permission_classes=[IsAdminUser]
+    )
+    update_relay_book_throttle = UpdateRelayBookMutation.Field(
+        throttle_classes=[ThrottleEleven]
+    )
+
+    update_relay_book_partial = UpdateRelayBookPartialMutation.Field()

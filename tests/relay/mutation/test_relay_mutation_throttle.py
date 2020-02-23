@@ -4,16 +4,14 @@ from rest_framework.utils import json
 
 
 @pytest.mark.django_db()
-def test_relay_mutation_create_resolver_throttle_classes(
-    graphql_throttle_resolver_four_client, user_factory
-):
+def test_relay_mutation_create_throttle_classes(graphql_client, user_factory):
     user = user_factory()
 
-    graphql_throttle_resolver_four_client.force_authenticate(user)
+    graphql_client.force_authenticate(user)
 
     mutation = """
-  mutation CreateRelayBook($input: CreateRelayBookInput!) {
-    createRelayBook(input: $input) {
+  mutation CreateRelayBookThrottle($input: CreateRelayBookInput!) {
+    createRelayBookThrottle(input: $input) {
       book {
         title
       }
@@ -26,14 +24,12 @@ def test_relay_mutation_create_resolver_throttle_classes(
 """
 
     # Request one, not throttled
-    response = graphql_throttle_resolver_four_client.execute(
-        mutation, {"input": {"title": ""}}
-    )
+    response = graphql_client.execute(mutation, {"input": {"title": ""}})
 
     assert response.status_code == 200
     assert json.loads(response.content) == {
         "data": {
-            "createRelayBook": {
+            "createRelayBookThrottle": {
                 "errors": [
                     {"field": "title", "messages": ["This field may not be blank."]}
                 ],
@@ -43,34 +39,30 @@ def test_relay_mutation_create_resolver_throttle_classes(
     }
 
     # Request two, throttled
-    response = graphql_throttle_resolver_four_client.execute(
-        mutation, {"input": {"title": ""}}
-    )
+    response = graphql_client.execute(mutation, {"input": {"title": ""}})
 
     assert response.status_code == 200
     assert json.loads(response.content) == {
-        "data": {"createRelayBook": None},
+        "data": {"createRelayBookThrottle": None},
         "errors": [
             {
                 "locations": [{"column": 5, "line": 3}],
                 "message": "Request was throttled. Expected available in 86400 seconds.",
-                "path": ["createRelayBook"],
+                "path": ["createRelayBookThrottle"],
             }
         ],
     }
 
 
 @pytest.mark.django_db()
-def test_relay_mutation_update_resolver_throttle_classes(
-    graphql_throttle_resolver_five_client, user_factory
-):
+def test_relay_mutation_update_throttle_classes(graphql_client, user_factory):
     user = user_factory()
 
-    graphql_throttle_resolver_five_client.force_authenticate(user)
+    graphql_client.force_authenticate(user)
 
     mutation = """
-  mutation UpdateRelayBook($input: UpdateRelayBookInput!) {
-    updateRelayBook(input: $input) {
+  mutation UpdateRelayBookThrottle($input: UpdateRelayBookInput!) {
+    updateRelayBookThrottle(input: $input) {
       errors {
         field
         messages
@@ -80,35 +72,35 @@ def test_relay_mutation_update_resolver_throttle_classes(
 """
 
     # Request one, not throttled
-    response = graphql_throttle_resolver_five_client.execute(
+    response = graphql_client.execute(
         mutation, {"input": {"id": to_global_id("BookType", 1), "title": ""}}
     )
 
     assert response.status_code == 200
     assert json.loads(response.content) == {
-        "data": {"updateRelayBook": None},
+        "data": {"updateRelayBookThrottle": None},
         "errors": [
             {
                 "locations": [{"column": 5, "line": 3}],
                 "message": "No Book matches the given query.",
-                "path": ["updateRelayBook"],
+                "path": ["updateRelayBookThrottle"],
             }
         ],
     }
 
     # Request two, throttled
-    response = graphql_throttle_resolver_five_client.execute(
+    response = graphql_client.execute(
         mutation, {"input": {"id": to_global_id("BookType", 1), "title": ""}}
     )
 
     assert response.status_code == 200
     assert json.loads(response.content) == {
-        "data": {"updateRelayBook": None},
+        "data": {"updateRelayBookThrottle": None},
         "errors": [
             {
                 "locations": [{"column": 5, "line": 3}],
                 "message": "Request was throttled. Expected available in 86400 seconds.",
-                "path": ["updateRelayBook"],
+                "path": ["updateRelayBookThrottle"],
             }
         ],
     }

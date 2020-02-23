@@ -1,6 +1,7 @@
 from collections import OrderedDict
 
 from django.http import Http404
+from django.utils.encoding import force_str
 
 from rest_framework.fields import SkipField
 
@@ -11,9 +12,8 @@ from graphene.relay.mutation import ClientIDMutation
 from graphene.types.objecttype import yank_fields_from_attrs
 from graphene.utils.str_converters import to_camel_case
 
-from graphene_django.registry import get_global_registry
-
 from ..fields import SpriklField
+from ..registry import get_global_registry
 from ..types import ErrorType
 from ..mutation import SerializerMutationOptions
 from ..serializers import fields_for_serializer
@@ -125,6 +125,7 @@ class SerializerBaseClientIDMutation(DjangoClientIDMutation):
             )
 
         _meta = SerializerMutationOptions(cls)
+        _meta.is_update = is_update
         _meta.lookup_field = lookup_field
         _meta.id_input_field = id_input_field
         _meta.partial = partial
@@ -147,10 +148,10 @@ class SerializerBaseClientIDMutation(DjangoClientIDMutation):
 
     @classmethod
     def get_serializer_kwargs(cls, root, info, **input):
-        model_class = cls._meta.model_class
+        is_update = cls._meta.is_update
         partial = cls._meta.partial
 
-        if model_class:
+        if is_update:
             instance = cls.get_instance(root, info, **input)
 
             return {
@@ -180,7 +181,7 @@ class SerializerBaseClientIDMutation(DjangoClientIDMutation):
         if path is None:
             path = []
         for key, value in errors.items():
-            key = to_camel_case(key)
+            key = to_camel_case(force_str(key))
             if isinstance(value, dict):
                 formatted_errors += cls.format_errors(
                     value, field=key + ".", path=path + [key]

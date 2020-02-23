@@ -41,7 +41,7 @@ input CreateRelayBookInput {
 }
 
 type CreateRelayBookPayload {
-  title: String
+  book: BookType
   errors: [ErrorType]
   clientMutationId: String
 }
@@ -56,6 +56,10 @@ type Mutation {
   createRelayBook(input: CreateRelayBookInput!): CreateRelayBookPayload
   createRelayBookAdmin(input: CreateRelayBookInput!): CreateRelayBookPayload
   createRelayBookThrottle(input: CreateRelayBookInput!): CreateRelayBookPayload
+  updateRelayBook(input: UpdateRelayBookInput!): UpdateRelayBookPayload
+  updateRelayBookAdmin(input: UpdateRelayBookInput!): UpdateRelayBookPayload
+  updateRelayBookThrottle(input: UpdateRelayBookInput!): UpdateRelayBookPayload
+  updateRelayBookPartial(input: UpdateRelayBookPartialInput!): UpdateRelayBookPartialPayload
 }
 
 type PageInfo {
@@ -86,6 +90,30 @@ type Query {
 
 interface SpriklNode {
   id: ID!
+}
+
+input UpdateRelayBookInput {
+  title: String!
+  id: ID!
+  clientMutationId: String
+}
+
+input UpdateRelayBookPartialInput {
+  title: String
+  id: ID!
+  clientMutationId: String
+}
+
+type UpdateRelayBookPartialPayload {
+  title: String
+  errors: [ErrorType]
+  clientMutationId: String
+}
+
+type UpdateRelayBookPayload {
+  title: String
+  errors: [ErrorType]
+  clientMutationId: String
 }
 """.lstrip()
     )
