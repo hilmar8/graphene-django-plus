@@ -1,8 +1,8 @@
-from graphene_django_hilmarh.fields import (
+from graphene_django_plus.fields import (
     SpriklConnectionField,
     SpriklFilterConnectionField,
 )
-from graphene_django_hilmarh.relay.node import SpriklNode
+from graphene_django_plus.relay.node import SpriklNode
 
 
 class TestRouter:

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from graphene_django_hilmarh.serializers import SerializerDjangoObjectTypeField
+from graphene_django_plus.serializers import SerializerDjangoObjectTypeField
 from tests.test_app.test_app.app.models import Book
 from tests.test_app.test_app.app.types import BookType
 

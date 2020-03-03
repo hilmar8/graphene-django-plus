@@ -4,12 +4,12 @@ from graphql_relay import to_global_id
 from rest_framework import serializers
 from rest_framework.utils import json
 
-from graphene_django_hilmarh.relay.mutation import (
+from graphene_django_plus.relay.mutation import (
     SerializerClientIDCreateMutation,
     SerializerClientIDUpdateMutation,
 )
-from graphene_django_hilmarh.relay.node import SpriklNode
-from graphene_django_hilmarh.serializers import SerializerRelayIDField
+from graphene_django_plus.relay.node import SpriklNode
+from graphene_django_plus.serializers import SerializerRelayIDField
 from tests.test_app.test_app.app.models import Book
 from tests.test_app.test_app.app.types import BookType
 

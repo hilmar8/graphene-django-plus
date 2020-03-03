@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "graphene-django-hilmarh"
+name = "graphene-django-plus"
 version = "0.0.1"
 description = "Custom modifications that I've done to graphene-django to make it work better for me"
-authors = ["Hilmar Ævar Hilmarsson"]
+authors = ["Hilmar Ævar Hilmarsson <hilmarh@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 

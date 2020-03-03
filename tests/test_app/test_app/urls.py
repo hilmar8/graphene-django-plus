@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import re_path
 
-from graphene_django_hilmarh.validators import (
+from graphene_django_plus.validators import (
     DocumentDepthValidator,
     DisableIntrospectionValidator,
 )

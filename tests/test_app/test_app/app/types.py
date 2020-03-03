@@ -1,9 +1,9 @@
 import graphene
 from graphene_django.fields import DjangoListField
 
-from graphene_django_hilmarh.fields import SpriklListField
-from graphene_django_hilmarh.relay.node import SpriklNode
-from graphene_django_hilmarh.types import DjangoObjectType
+from graphene_django_plus.fields import SpriklListField
+from graphene_django_plus.relay.node import SpriklNode
+from graphene_django_plus.types import DjangoObjectType
 from tests.test_app.test_app.app.models import Book, Publisher, Author
 
 

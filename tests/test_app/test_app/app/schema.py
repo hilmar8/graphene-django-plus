@@ -1,6 +1,6 @@
 from rest_framework.permissions import IsAdminUser
 
-from graphene_django_hilmarh.routers import TestRouter
+from graphene_django_plus.routers import TestRouter
 from tests.test_app.test_app.app.mutations import (
     CreateRelayBookMutation,
     UpdateRelayBookMutation,

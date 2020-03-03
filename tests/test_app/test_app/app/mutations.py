@@ -1,8 +1,8 @@
-from graphene_django_hilmarh.relay.mutation import (
+from graphene_django_plus.relay.mutation import (
     SerializerClientIDCreateMutation,
     SerializerClientIDUpdateMutation,
 )
-from graphene_django_hilmarh.relay.node import SpriklNode
+from graphene_django_plus.relay.node import SpriklNode
 from tests.test_app.test_app.app.serializers import (
     CreateRelayBookSerializer,
     UpdateRelayBookSerializer,

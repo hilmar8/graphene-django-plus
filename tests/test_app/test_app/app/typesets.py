@@ -1,7 +1,7 @@
 from rest_framework.permissions import IsAdminUser
 from rest_framework.viewsets import ModelViewSet
 
-from graphene_django_hilmarh.typesets import RelayTypeSet
+from graphene_django_plus.typesets import RelayTypeSet
 from tests.test_app.test_app.app.filters import BookFilter
 from tests.test_app.test_app.app.types import BookType
 from tests.test_app.test_app.throttles import ThrottleThree, ThrottleFour, ThrottleSix

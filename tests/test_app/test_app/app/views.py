@@ -2,7 +2,7 @@
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
-from graphene_django_hilmarh.views import GraphQLAPIView
+from graphene_django_plus.views import GraphQLAPIView
 from tests.test_app.test_app.throttles import (
     ThrottleOne,
     ThrottleTwo,
