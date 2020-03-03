@@ -92,6 +92,11 @@ def graphql_throttle_resolver_five_client():
     return GraphQLClient("graphql-throttle-resolver-5")
 
 
+@pytest.fixture()
+def graphql_throttle_resolver_six_client():
+    return GraphQLClient("graphql-throttle-resolver-6")
+
+
 # Model Factories
 
 

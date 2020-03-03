@@ -1,5 +1,7 @@
+import graphene
 from rest_framework.permissions import IsAdminUser
 
+from graphene_django_plus.fields import SpriklListField
 from graphene_django_plus.routers import TestRouter
 from tests.test_app.test_app.app.mutations import (
     CreateRelayBookMutation,
@@ -14,7 +16,11 @@ from tests.test_app.test_app.app.typesets import (
     BookRelayFilteredAdminTypeSet,
     BookRelayFilteredThrottleTypeSet,
 )
-from tests.test_app.test_app.throttles import ThrottleEight, ThrottleEleven
+from tests.test_app.test_app.throttles import (
+    ThrottleEight,
+    ThrottleEleven,
+    ThrottleThirteen,
+)
 
 test_router = TestRouter()
 
@@ -25,7 +31,24 @@ test_router.register("book_filtered", BookRelayFilteredTypeSet)
 test_router.register("book_filtered_admin", BookRelayFilteredAdminTypeSet)
 test_router.register("book_filtered_throttle", BookRelayFilteredThrottleTypeSet)
 
-query = test_router.query()
+_query = test_router.query()
+
+
+class Query(_query):
+    other = SpriklListField(graphene.String)
+    other_as_admin = SpriklListField(graphene.String, permission_classes=[IsAdminUser])
+    other_throttle = SpriklListField(
+        graphene.String, throttle_classes=[ThrottleThirteen]
+    )
+
+    def resolve_other(self, info):
+        return ["1", "2"]
+
+    def resolve_other_as_admin(self, info):
+        return ["1", "2"]
+
+    def resolve_other_throttle(self, info):
+        return ["1", "2"]
 
 
 class Mutation:

@@ -49,7 +49,7 @@ router = routers.SimpleRouter()
 # test_router.register("book", SpriklNode.Field(BookType))
 
 
-class Query(app_schema.query, graphene.ObjectType):
+class Query(app_schema.Query, graphene.ObjectType):
     pass
 
 

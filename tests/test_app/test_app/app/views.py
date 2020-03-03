@@ -10,7 +10,7 @@ from tests.test_app.test_app.throttles import (
     ThrottleSeven,
     ThrottleNine,
     ThrottleTen,
-)
+    ThrottleTwelve)
 
 
 class CustomGraphQLAPIView(GraphQLAPIView):
@@ -67,3 +67,9 @@ class ThrottleResolverFiveGraphQLAPIView(GraphQLAPIView):
     authentication_classes = [BasicAuthentication, SessionAuthentication]
     permission_classes = [IsAuthenticated]
     resolver_throttle_classes = [ThrottleTen]
+
+
+class ThrottleResolverSixGraphQLAPIView(GraphQLAPIView):
+    authentication_classes = [BasicAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    resolver_throttle_classes = [ThrottleTwelve]

@@ -86,6 +86,9 @@ type Query {
   booksFiltered(before: String, after: String, first: Int, last: Int, search: String): BookTypeConnection
   booksFilteredAsAdmin(before: String, after: String, first: Int, last: Int, search: String): BookTypeConnection
   booksFilteredThrottled(before: String, after: String, first: Int, last: Int, search: String): BookTypeConnection
+  other: [String]
+  otherAsAdmin: [String]
+  otherThrottle: [String]
 }
 
 interface SpriklNode {

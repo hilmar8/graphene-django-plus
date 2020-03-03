@@ -167,6 +167,41 @@ class SpriklField(graphene.Field):
         )
 
 
-class SpriklListField(DjangoListField):
+class SpriklDjangoListField(DjangoListField):
     def __init__(self, _type, *args, **kwargs):
         super(DjangoListField, self).__init__(List(NonNull(_type)), *args, **kwargs)
+
+
+class SpriklListField(Field):
+    def __init__(self, _type, *args, **kwargs):
+        self.permission_classes = kwargs.pop("permission_classes", None)
+        self.throttle_classes = kwargs.pop("throttle_classes", None)
+
+        if isinstance(_type, NonNull):
+            _type = _type.of_type
+
+        super(SpriklListField, self).__init__(List(_type), *args, **kwargs)
+
+    @classmethod
+    def list_resolver(
+        cls,
+        resolver,
+        root,
+        info,
+        permission_classes=None,
+        throttle_classes=None,
+        *args,
+        **kwargs
+    ):
+        check_permission_classes(info, cls, permission_classes)
+        check_throttle_classes(info, cls, throttle_classes)
+
+        return resolver(root, info, *args, **kwargs)
+
+    def get_resolver(self, parent_resolver):
+        return partial(
+            self.list_resolver,
+            self.resolver or parent_resolver,
+            permission_classes=self.permission_classes,
+            throttle_classes=self.throttle_classes,
+        )

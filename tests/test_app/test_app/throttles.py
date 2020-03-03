@@ -76,3 +76,17 @@ class ThrottleEleven(throttling.UserRateThrottle):
 
     def get_rate(self):
         return "1/day"
+
+
+class ThrottleTwelve(throttling.UserRateThrottle):
+    scope = "throttle12"
+
+    def get_rate(self):
+        return "1/day"
+
+
+class ThrottleThirteen(throttling.UserRateThrottle):
+    scope = "throttle13"
+
+    def get_rate(self):
+        return "1/day"
