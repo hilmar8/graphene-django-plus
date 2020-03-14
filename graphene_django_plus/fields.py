@@ -10,7 +10,7 @@ from graphene_django.filter import DjangoFilterConnectionField
 from .permissions import check_permission_classes, check_throttle_classes
 
 
-class SpriklConnectionField(DjangoConnectionField):
+class PlusConnectionField(DjangoConnectionField):
     def __init__(self, *args, **kwargs):
         self.permission_classes = kwargs.pop("permission_classes", None)
         self.throttle_classes = kwargs.pop("throttle_classes", None)
@@ -67,7 +67,7 @@ class SpriklConnectionField(DjangoConnectionField):
         )
 
 
-class SpriklFilterConnectionField(DjangoFilterConnectionField):
+class PlusFilterConnectionField(DjangoFilterConnectionField):
     def __init__(
         self,
         type,
@@ -136,11 +136,11 @@ class SpriklFilterConnectionField(DjangoFilterConnectionField):
         )
 
 
-class SpriklField(graphene.Field):
+class PlusField(graphene.Field):
     def __init__(self, *args, **kwargs):
         self.permission_classes = kwargs.pop("permission_classes", None)
         self.throttle_classes = kwargs.pop("throttle_classes", None)
-        super(SpriklField, self).__init__(*args, **kwargs)
+        super(PlusField, self).__init__(*args, **kwargs)
 
     @classmethod
     def field_resolver(
@@ -167,12 +167,12 @@ class SpriklField(graphene.Field):
         )
 
 
-class SpriklDjangoListField(DjangoListField):
+class DjangoPlusListField(DjangoListField):
     def __init__(self, _type, *args, **kwargs):
         super(DjangoListField, self).__init__(List(NonNull(_type)), *args, **kwargs)
 
 
-class SpriklListField(Field):
+class PlusListField(Field):
     def __init__(self, _type, *args, **kwargs):
         self.permission_classes = kwargs.pop("permission_classes", None)
         self.throttle_classes = kwargs.pop("throttle_classes", None)
@@ -180,7 +180,7 @@ class SpriklListField(Field):
         if isinstance(_type, NonNull):
             _type = _type.of_type
 
-        super(SpriklListField, self).__init__(List(_type), *args, **kwargs)
+        super(PlusListField, self).__init__(List(_type), *args, **kwargs)
 
     @classmethod
     def list_resolver(

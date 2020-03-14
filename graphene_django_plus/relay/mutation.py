@@ -2,6 +2,7 @@ from collections import OrderedDict
 
 from django.http import Http404
 from django.utils.encoding import force_str
+from rest_framework import serializers
 
 from rest_framework.fields import SkipField
 
@@ -12,7 +13,7 @@ from graphene.relay.mutation import ClientIDMutation
 from graphene.types.objecttype import yank_fields_from_attrs
 from graphene.utils.str_converters import to_camel_case
 
-from ..fields import SpriklField
+from ..fields import PlusField
 from ..registry import get_global_registry
 from ..types import ErrorType
 from ..mutation import SerializerMutationOptions
@@ -35,7 +36,7 @@ class DjangoClientIDMutation(ClientIDMutation):
         permission_classes=None,
         throttle_classes=None,
     ):
-        return SpriklField(
+        return PlusField(
             cls._meta.output,
             args=cls._meta.arguments,
             resolver=cls._meta.resolver,
@@ -225,7 +226,10 @@ class SerializerBaseClientIDMutation(DjangoClientIDMutation):
         for f, field in serializer.fields.items():
             if not field.write_only:
                 try:
-                    kwargs[f] = field.get_attribute(obj)
+                    if isinstance(field, serializers.SerializerMethodField):
+                        kwargs[f] = field.to_representation(obj)
+                    else:
+                        kwargs[f] = field.get_attribute(obj)
                 except SkipField:
                     pass
 

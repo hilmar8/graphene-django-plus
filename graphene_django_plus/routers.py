@@ -1,8 +1,8 @@
 from graphene_django_plus.fields import (
-    SpriklConnectionField,
-    SpriklFilterConnectionField,
+    PlusConnectionField,
+    PlusFilterConnectionField,
 )
-from graphene_django_plus.relay.node import SpriklNode
+from graphene_django_plus.relay.node import PlusNode
 
 
 class TestRouter:
@@ -28,7 +28,7 @@ class TestRouter:
                 ret.append(
                     (
                         operation_name,
-                        SpriklNode.Field(
+                        PlusNode.Field(
                             field_type.get_object_type("get"),
                             permission_classes=permission_classes,
                             throttle_classes=throttle_classes,
@@ -46,7 +46,7 @@ class TestRouter:
                     ret.append(
                         (
                             operation_name,
-                            SpriklFilterConnectionField(
+                            PlusFilterConnectionField(
                                 field_type.get_object_type("list"),
                                 filterset_class=filterset_class,
                                 permission_classes=permission_classes,
@@ -58,7 +58,7 @@ class TestRouter:
                     ret.append(
                         (
                             operation_name,
-                            SpriklConnectionField(
+                            PlusConnectionField(
                                 field_type.get_object_type("list"),
                                 permission_classes=permission_classes,
                                 throttle_classes=throttle_classes,

@@ -6,12 +6,12 @@ from graphene.relay import node as graphene_node
 from ..permissions import check_permission_classes, check_throttle_classes
 
 
-class SpriklNodeField(graphene_node.NodeField):
+class PlusNodeField(graphene_node.NodeField):
     def __init__(self, *args, **kwargs):
         self.permission_classes = kwargs.pop("permission_classes", None)
         self.throttle_classes = kwargs.pop("throttle_classes", None)
 
-        super(SpriklNodeField, self).__init__(*args, **kwargs)
+        super(PlusNodeField, self).__init__(*args, **kwargs)
 
     def get_resolver(self, parent_resolver):
         return partial(
@@ -22,10 +22,10 @@ class SpriklNodeField(graphene_node.NodeField):
         )
 
 
-class SpriklNode(graphene_node.Node):
+class PlusNode(graphene_node.Node):
     @classmethod
     def Field(cls, *args, **kwargs):  # noqa: N802
-        return SpriklNodeField(cls, *args, **kwargs)
+        return PlusNodeField(cls, *args, **kwargs)
 
     @classmethod
     def node_resolver(

@@ -1,7 +1,7 @@
 import graphene
 from rest_framework.permissions import IsAdminUser
 
-from graphene_django_plus.fields import SpriklListField
+from graphene_django_plus.fields import PlusListField
 from graphene_django_plus.routers import TestRouter
 from tests.test_app.test_app.app.mutations import (
     CreateRelayBookMutation,
@@ -35,9 +35,9 @@ _query = test_router.query()
 
 
 class Query(_query):
-    other = SpriklListField(graphene.String)
-    other_as_admin = SpriklListField(graphene.String, permission_classes=[IsAdminUser])
-    other_throttle = SpriklListField(
+    other = PlusListField(graphene.String)
+    other_as_admin = PlusListField(graphene.String, permission_classes=[IsAdminUser])
+    other_throttle = PlusListField(
         graphene.String, throttle_classes=[ThrottleThirteen]
     )
 

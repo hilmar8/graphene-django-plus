@@ -8,7 +8,7 @@ from graphene_django_plus.relay.mutation import (
     SerializerClientIDCreateMutation,
     SerializerClientIDUpdateMutation,
 )
-from graphene_django_plus.relay.node import SpriklNode
+from graphene_django_plus.relay.node import PlusNode
 from graphene_django_plus.serializers import SerializerRelayIDField
 from tests.test_app.test_app.app.models import Book
 from tests.test_app.test_app.app.types import BookType
@@ -43,7 +43,7 @@ def test_serializer_base_client_id_mutation_update_without_model_class():
         class SerializerMutation(SerializerClientIDUpdateMutation):
             class Meta:
                 serializer_class = serializers.Serializer
-                node_class = SpriklNode
+                node_class = PlusNode
 
     assert e.value.args[0] == "model_class is required for SerializerClientIDMutation"
 
@@ -57,7 +57,7 @@ def test_serializer_base_client_id_mutation_update_without_id_field():
     class SerializerMutation(SerializerClientIDUpdateMutation):
         class Meta:
             serializer_class = BookSerializer
-            node_class = SpriklNode
+            node_class = PlusNode
             model_class = Book
             id_input_field = None
 
@@ -301,7 +301,7 @@ input SerializerMutationInput {
 @pytest.mark.django_db()
 def test_serializer_base_client_id_mutation_serializer_relay_id_field_without_method_name():
     class Serializer(serializers.Serializer):
-        id = SerializerRelayIDField(BookType, node_class=SpriklNode, source="book")
+        id = SerializerRelayIDField(BookType, node_class=PlusNode, source="book")
         title = serializers.CharField(read_only=True)
 
         def create(self, validated_data):

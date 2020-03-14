@@ -10,14 +10,14 @@ schema {
   mutation: Mutation
 }
 
-type AuthorType implements SpriklNode {
+type AuthorType implements PlusNode {
   firstName: String!
   lastName: String!
   email: String!
   id: ID!
 }
 
-type BookType implements SpriklNode {
+type BookType implements PlusNode {
   title: String!
   id: ID!
   publisher: PublisherType
@@ -69,7 +69,11 @@ type PageInfo {
   endCursor: String
 }
 
-type PublisherType implements SpriklNode {
+interface PlusNode {
+  id: ID!
+}
+
+type PublisherType implements PlusNode {
   name: String!
   address: String!
   id: ID!
@@ -89,10 +93,6 @@ type Query {
   other: [String]
   otherAsAdmin: [String]
   otherThrottle: [String]
-}
-
-interface SpriklNode {
-  id: ID!
 }
 
 input UpdateRelayBookInput {

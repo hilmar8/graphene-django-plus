@@ -2,9 +2,9 @@
 #
 # from graphql.execution.middleware import make_it_promise
 #
-# from .fields import SpriklFilterConnectionField, SpriklField
+# from .fields import PlusFilterConnectionField, PlusField
 # from .permissions import check_permission_classes, check_throttle_classes
-# from .relay.node import SpriklNode
+# from .relay.node import PlusNode
 #
 #
 # class TestMiddleware(object):
@@ -22,11 +22,11 @@
 #         #     if resolver_fn.func == default_resolver:
 #         #         resolver_fn = resolver_fn.args[0]
 #
-#         # SpriklNode
+#         # PlusNode
 #         if hasattr(resolver_fn, "func") and (
-#             resolver_fn.func == SpriklNode.node_resolver
-#             or resolver_fn.func == SpriklFilterConnectionField.connection_resolver
-#             or resolver_fn.func == SpriklField.field_resolver
+#             resolver_fn.func == PlusNode.node_resolver
+#             or resolver_fn.func == PlusFilterConnectionField.connection_resolver
+#             or resolver_fn.func == PlusField.field_resolver
 #         ):
 #             return next(root, info, **args)
 #
