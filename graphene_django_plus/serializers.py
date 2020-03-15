@@ -16,7 +16,8 @@ from .registry import get_global_registry
 class SerializerDjangoObjectTypeField(serializers.ReadOnlyField):
     def __init__(self, object_type, **kwargs):
         self.object_type = object_type
-        kwargs["source"] = "*"
+        if "source" not in kwargs:
+            kwargs["source"] = "*"
         super(SerializerDjangoObjectTypeField, self).__init__(**kwargs)
 
 
