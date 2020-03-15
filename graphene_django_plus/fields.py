@@ -41,6 +41,18 @@ class PlusConnectionField(DjangoConnectionField):
             return NonNull(connection_type)
         return connection_type
 
+    @property
+    def model(self):
+        return getattr(self.node_type._meta, 'model', None)
+
+    def get_manager(self):
+        if self.model is None:
+            return None
+        elif self.on:
+            return getattr(self.model, self.on)
+        else:
+            return self.model._default_manager
+
     @classmethod
     def resolve_connection(cls, connection, args, iterable):
         connection = super().resolve_connection(connection, args, iterable)
