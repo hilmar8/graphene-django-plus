@@ -1,7 +1,7 @@
 from functools import partial
 
 import graphene
-from graphene import Field, List, NonNull
+from graphene import Field, List, NonNull, ConnectionField, Connection
 from graphene.types.utils import get_type
 from graphene_django import DjangoConnectionField
 from graphene_django.fields import DjangoListField
@@ -16,6 +16,30 @@ class PlusConnectionField(DjangoConnectionField):
         self.throttle_classes = kwargs.pop("throttle_classes", None)
 
         super().__init__(*args, **kwargs)
+
+    @property
+    def type(self):
+        from .types import DjangoObjectType
+
+        _type = super(ConnectionField, self).type
+        non_null = False
+        if isinstance(_type, NonNull):
+            _type = _type.of_type
+            non_null = True
+
+        if issubclass(_type, Connection):
+            connection_type = _type
+        else:
+            assert issubclass(
+                _type, DjangoObjectType
+            ), "PlusConnectionField only accepts DjangoObjectType and Connection types"
+            assert _type._meta.connection, "The type {} doesn't have a connection".format(
+                _type.__name__
+            )
+            connection_type = _type._meta.connection
+        if non_null:
+            return NonNull(connection_type)
+        return connection_type
 
     @classmethod
     def resolve_connection(cls, connection, args, iterable):
