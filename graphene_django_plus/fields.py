@@ -169,7 +169,40 @@ class PlusField(graphene.Field):
 
 class DjangoPlusListField(DjangoListField):
     def __init__(self, _type, *args, **kwargs):
+        self.permission_classes = kwargs.pop("permission_classes", None)
+        self.throttle_classes = kwargs.pop("throttle_classes", None)
+
         super(DjangoListField, self).__init__(List(NonNull(_type)), *args, **kwargs)
+
+    @classmethod
+    def list_resolver(
+        cls,
+        django_object_type,
+        resolver,
+        root,
+        info,
+        permission_classes=None,
+        throttle_classes=None,
+        **args
+    ):
+        check_permission_classes(info, cls, permission_classes)
+        check_throttle_classes(info, cls, throttle_classes)
+
+        return super().list_resolver(django_object_type, resolver, root, info, **args)
+
+    def get_resolver(self, parent_resolver):
+        _type = self.type
+        if isinstance(_type, NonNull):
+            _type = _type.of_type
+        django_object_type = _type.of_type.of_type
+
+        return partial(
+            self.list_resolver,
+            django_object_type,
+            parent_resolver,
+            permission_classes=self.permission_classes,
+            throttle_classes=self.throttle_classes,
+        )
 
 
 class PlusListField(Field):
