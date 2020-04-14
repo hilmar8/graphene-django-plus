@@ -276,6 +276,10 @@ class SerializerClientIDUpdateMutation(SerializerBaseClientIDMutation):
         )
 
     @classmethod
+    def get_node_from_global_id(cls, root, info, node_class, model_type, global_id):
+        return node_class.get_node_from_global_id(info, global_id, model_type)
+
+    @classmethod
     def get_instance(cls, root, info, **input):
         id_input_field = cls._meta.id_input_field
 
@@ -291,8 +295,8 @@ class SerializerClientIDUpdateMutation(SerializerBaseClientIDMutation):
         registry = cls._meta.registry if cls._meta.registry else global_registry
 
         model_type = registry.get_type_for_model(model_class)
-        instance = node_class.get_node_from_global_id(
-            info, input.get(id_input_field), model_type
+        instance = cls.get_node_from_global_id(
+            root, info, node_class, model_type, input.get(id_input_field)
         )
 
         if instance is None:
