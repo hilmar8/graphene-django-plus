@@ -4,7 +4,7 @@ import copy
 
 import six
 
-from graphql import get_default_backend
+from graphql import get_default_backend, MiddlewareManager
 from graphql.error import format_error as format_graphql_error
 from graphql.error import GraphQLError
 from graphql.execution import ExecutionResult
@@ -106,7 +106,10 @@ class GraphQLAPIView(APIView):
 
         self.graphene_schema = self.graphene_schema or graphene_schema
         if graphene_middleware is not None:
-            self.graphene_middleware = list(instantiate_middleware(graphene_middleware))
+            if isinstance(graphene_middleware, MiddlewareManager):
+                self.graphene_middleware = graphene_middleware
+            else:
+                self.graphene_middleware = list(instantiate_middleware(graphene_middleware))
         self.graphene_executor = graphene_executor
         self.graphene_root_value = graphene_root_value
         self.graphene_pretty = self.graphene_pretty or graphene_pretty

@@ -215,6 +215,7 @@ class DjangoPlusListField(DjangoListField):
         cls,
         django_object_type,
         resolver,
+        default_queryset,
         root,
         info,
         permission_classes=None,
@@ -224,7 +225,7 @@ class DjangoPlusListField(DjangoListField):
         check_permission_classes(info, cls, permission_classes)
         check_throttle_classes(info, cls, throttle_classes)
 
-        return super().list_resolver(django_object_type, resolver, root, info, **args)
+        return super().list_resolver(django_object_type, resolver, default_queryset, root, info, **args)
 
     def get_resolver(self, parent_resolver):
         _type = self.type
@@ -236,6 +237,7 @@ class DjangoPlusListField(DjangoListField):
             self.list_resolver,
             django_object_type,
             parent_resolver,
+            self.get_default_queryset(),
             permission_classes=self.permission_classes,
             throttle_classes=self.throttle_classes,
         )

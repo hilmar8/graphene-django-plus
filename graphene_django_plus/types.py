@@ -25,10 +25,10 @@ class DjangoObjectType(graphene_django.types.DjangoObjectType):
         id_field=None,
         registry=None,
         skip_registry=False,
-        only_fields=(),
-        fields=(),
-        exclude_fields=(),
-        exclude=(),
+        only_fields=None,  # deprecated in favour of `fields`
+        fields=None,
+        exclude_fields=None,  # deprecated in favour of `exclude`
+        exclude=None,
         filter_fields=None,
         filterset_class=None,
         connection=None,
