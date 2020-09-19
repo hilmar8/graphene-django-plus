@@ -54,8 +54,8 @@ class PlusConnectionField(DjangoConnectionField):
             return self.model._default_manager
 
     @classmethod
-    def resolve_connection(cls, connection, args, iterable):
-        connection = super().resolve_connection(connection, args, iterable)
+    def resolve_connection(cls, connection, args, iterable, max_limit=None):
+        connection = super().resolve_connection(connection, args, iterable, max_limit)
         connection.total_count = connection.length
         return connection
 
@@ -122,8 +122,8 @@ class PlusFilterConnectionField(DjangoFilterConnectionField):
         )
 
     @classmethod
-    def resolve_connection(cls, connection, args, iterable):
-        connection = super().resolve_connection(connection, args, iterable)
+    def resolve_connection(cls, connection, args, iterable, max_limit=None):
+        connection = super().resolve_connection(connection, args, iterable, max_limit)
 
         connection.total_count = connection.length
         return connection

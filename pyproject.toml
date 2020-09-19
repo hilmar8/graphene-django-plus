@@ -7,14 +7,14 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "~3.7"
+python = "^3.7"
 
 [tool.poetry.dev-dependencies]
-django = "3.0.4"
-djangorestframework = "3.11.0"
+django = "3.1.1"
+djangorestframework = "3.11.1"
 graphene = "2.1.8"
-graphene-django = "2.10.1"
-pytest = "^5.3.5"
+graphene-django = "2.13.0"
+pytest = "^6.0.2"
 pytest-django = "^3.8.0"
 black = "^19.10b0"
 django-filter = "^2.2.0"
